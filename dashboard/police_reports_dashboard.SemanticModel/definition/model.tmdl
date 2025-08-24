@@ -1,0 +1,24 @@
+model Model
+	culture: pl-PL
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pl-PL
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["public kpi_clearance_rate","public kpi_mortality","public m_intervention_change","public w_accident_rate_change","public w_rolling_accidents"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.146.1026.0 (25.08)+fb98ab832373de81dccd5c01cd96306a48477556
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'public kpi_clearance_rate'
+ref table 'public kpi_mortality'
+ref table 'public m_intervention_change'
+ref table 'public w_accident_rate_change'
+ref table 'public w_rolling_accidents'
+
+ref cultureInfo pl-PL
+

@@ -1,0 +1,25 @@
+table 'public kpi_clearance_rate'
+	lineageTag: 1d2c4b3d-190e-4f21-b8bc-c35a9422b4e9
+
+	column clearance_rate
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: dd2f81a8-b8f3-4ffc-ac4b-47c75897272c
+		summarizeBy: sum
+		sourceColumn: clearance_rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'public kpi_clearance_rate' = m
+		mode: directQuery
+		source =
+				let
+				    Źródło = PostgreSQL.Database("localhost", "police_reports"),
+				    public_kpi_clearance_rate = Źródło{[Schema="public",Item="kpi_clearance_rate"]}[Data]
+				in
+				    public_kpi_clearance_rate
+
+	annotation PBI_ResultType = Table
+

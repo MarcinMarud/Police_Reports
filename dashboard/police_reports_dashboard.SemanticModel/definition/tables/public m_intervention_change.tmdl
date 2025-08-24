@@ -1,0 +1,54 @@
+table 'public m_intervention_change'
+	lineageTag: b6fc68db-91a6-48e2-99e0-568f65d8577c
+
+	column month
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: d9459717-4a20-4a04-8af5-c5e600e4f7cb
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column interventions
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 7390f429-43d8-41e6-be73-923e87d9b5f6
+		summarizeBy: sum
+		sourceColumn: interventions
+
+		annotation SummarizationSetBy = Automatic
+
+	column previous_month_interventions
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: a61c6174-586f-4a88-916e-767fe74c0b12
+		summarizeBy: sum
+		sourceColumn: previous_month_interventions
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_change
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: a4843ccb-dc49-4ea3-8b31-66176445d710
+		summarizeBy: sum
+		sourceColumn: pct_change
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'public m_intervention_change' = m
+		mode: directQuery
+		source =
+				let
+				    Źródło = PostgreSQL.Database("localhost", "police_reports"),
+				    public_m_intervention_change = Źródło{[Schema="public",Item="m_intervention_change"]}[Data]
+				in
+				    public_m_intervention_change
+
+	annotation PBI_ResultType = Table
+

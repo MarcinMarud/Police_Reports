@@ -1,0 +1,25 @@
+table 'public kpi_mortality'
+	lineageTag: 4cf8d322-ee4b-435d-bad1-9f3c5a194927
+
+	column mortality
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 2ce710d2-aeec-4d76-a36f-3d5b2b9eef25
+		summarizeBy: sum
+		sourceColumn: mortality
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'public kpi_mortality' = m
+		mode: directQuery
+		source =
+				let
+				    Źródło = PostgreSQL.Database("localhost", "police_reports"),
+				    public_kpi_mortality = Źródło{[Schema="public",Item="kpi_mortality"]}[Data]
+				in
+				    public_kpi_mortality
+
+	annotation PBI_ResultType = Table
+
